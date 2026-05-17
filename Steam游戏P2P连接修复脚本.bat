@@ -1,4 +1,5 @@
 @echo off
+chcp 936 >nul
 setlocal enabledelayedexpansion
 
 :menu
@@ -33,15 +34,15 @@ if "%choice%"=="1" (
     goto :start_fix	
 ) else if "%choice%"=="4" (
     set "GAME_NAME=Ò£Ò£Î÷ÍÁ"
-    set "APPID="3124540"
+    set "APPID=3124540"
     goto :start_fix	
 ) else if "%choice%"=="5" (
     set "GAME_NAME=ÐÇÂ¶¹ÈÎïÓï"
-    set "APPID="413150"
+    set "APPID=413150"
     goto :start_fix	
 ) else if "%choice%"=="6" (
     set "GAME_NAME=½Ö°Ô6"
-    set "APPID="1364780"
+    set "APPID=1364780"
     goto :start_fix	
 ) else if "%choice%"=="0" (
     exit /b 0
