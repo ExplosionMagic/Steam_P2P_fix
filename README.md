@@ -26,7 +26,7 @@
 双击运行后，选择想要修复的游戏。脚本会自动完成剩下的工作。
 
 现已支持：深岩银河、鼠疫2、雨中冒险2、遥遥西土、街霸6
-![多合一版](https://imgheybox1.max-c.com/web/bbs/2026/05/16/bdf815b235d396cac8cc8b81f9056bdf.png)
+![多合一版](https://imgheybox1.max-c.com/web/bbs/2026/05/17/0feca4ad679f9326aef7962d10e9d51b.png)
 
 也提供独立版本：
 双击运行后，脚本会自动完成剩下的工作。
