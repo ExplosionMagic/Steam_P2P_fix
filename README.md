@@ -4,16 +4,16 @@
 
 - 前情提要：
 
->自3月10日起，在 《深岩银河》、《末世鼠疫2》、《星露谷物语》 等依赖 Steam P2P 服务的游戏中，普遍出现了联机卡顿问题，
+>自 3 月 10 日起，在 《深岩银河》、《末世鼠疫2》、《星露谷物语》 等依赖 Steam P2P 服务的游戏中，普遍出现了联机卡顿问题，
 >且影响广泛。
 
-[Steam故障导致P2P游戏延迟升高、丢包——需要玩家集体反馈 - 小黑盒](https://www.xiaoheihe.cn/app/bbs/link/cf5171a3d2ad?h_camp=link&h_src=YXBwX3NoYXJl)
+[Steam 故障导致 P2P 游戏延迟升高、丢包——需要玩家集体反馈 - 小黑盒](https://www.xiaoheihe.cn/app/bbs/link/cf5171a3d2ad?h_camp=link&h_src=YXBwX3NoYXJl)
 
 - 以及解决办法：
 
-[【解决办法】关于3月以来联机走中转导致的延迟、丢包掉线问题 - 小黑盒](https://www.xiaoheihe.cn/app/bbs/link/57dc71e70e86?h_camp=link&h_src=YXBwX3NoYXJl)
+[【解决办法】关于 3 月以来联机走中转导致的延迟、丢包掉线问题 - 小黑盒](https://www.xiaoheihe.cn/app/bbs/link/57dc71e70e86?h_camp=link&h_src=YXBwX3NoYXJl)
 
-此方法经过盒友测试确实能和过去一样建立P2P直连*，大幅降低延迟，提升游戏体验**。
+此方法经过盒友测试确实能和过去一样建立 P2P 直连*，大幅降低延迟，提升游戏体验**。
 
 ------------------------------------
 
@@ -25,7 +25,7 @@
 
 双击运行后，选择想要修复的游戏。脚本会自动完成剩下的工作。
 
-现已支持：深岩银河、鼠疫2、雨中冒险2、遥遥西土、街霸6
+现已支持：深岩银河、鼠疫 2、雨中冒险 2、遥遥西土、街霸 6
 ![多合一版](https://imgheybox1.max-c.com/web/bbs/2026/05/17/0feca4ad679f9326aef7962d10e9d51b.png)
 
 也提供独立版本：
