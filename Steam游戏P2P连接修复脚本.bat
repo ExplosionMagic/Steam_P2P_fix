@@ -8,14 +8,16 @@ echo          Steam 游戏 P2P 连接修复脚本
 echo =============================================
 echo.
 echo 请选择需要修复的游戏:
+echo.
 echo [1] 深岩银河 (Deep Rock Galactic)
 echo [2] 战锤：末世鼠疫2 (Warhammer: Vermintide 2)
 echo [3] 雨中冒险2 (Risk of Rain 2)
 echo [4] 遥遥西土 (Far Far West)
-echo [5] 街霸6 (Street Fighter? 6)
+echo [5] 星露谷物语 (Stardew Valley)
+echo [6] 街霸6 (Street Fighter 6)
 echo [0] 退出脚本
 echo.
-set /p "choice=请输入数字选择 (0-5): "
+set /p "choice=请输入数字选择 (0-6): "
 
 if "%choice%"=="1" (
     set "GAME_NAME=深岩银河"
@@ -34,6 +36,10 @@ if "%choice%"=="1" (
     set "APPID="3124540"
     goto :start_fix	
 ) else if "%choice%"=="5" (
+    set "GAME_NAME=星露谷物语"
+    set "APPID="413150"
+    goto :start_fix	
+) else if "%choice%"=="6" (
     set "GAME_NAME=街霸6"
     set "APPID="1364780"
     goto :start_fix	
@@ -192,14 +198,25 @@ if "%APPID%"=="548430" (
         echo.
         goto :end
     )
-) else if "%APPID%"=="1364780" (
- :: ========== Street Fighter 6 的复制逻辑 ==========
+) else if "%APPID%"=="413150" (
+ :: ========== 星露谷物语的复制逻辑 ==========
     set "targetFolder5=%FINAL_PATH%"
     echo 正在复制到 !targetFolder5!
     copy /Y "%sourceFile%" "!targetFolder5!"
 
     if errorlevel 1 (
         echo 发生错误：复制文件到 !targetFolder5! 时出错
+        echo.
+        goto :end
+    )
+) else if "%APPID%"=="1364780" (
+ :: ========== Street Fighter 6 的复制逻辑 ==========
+    set "targetFolder6=%FINAL_PATH%"
+    echo 正在复制到 !targetFolder6!
+    copy /Y "%sourceFile%" "!targetFolder6!"
+
+    if errorlevel 1 (
+        echo 发生错误：复制文件到 !targetFolder6! 时出错
         echo.
         goto :end
     )
