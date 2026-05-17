@@ -11,9 +11,12 @@ echo.
 echo 请选择需要修复的游戏:
 echo [1] 深岩银河 (Deep Rock Galactic)
 echo [2] 战锤：末世鼠疫2 (Warhammer: Vermintide 2)
+echo [3] 雨中冒险2 (Risk of Rain 2)
+echo [4] 遥遥西土 (Far Far West)
+echo [5] 街霸6 (Street Fighter™ 6)
 echo [0] 退出脚本
 echo.
-set /p "choice=请输入数字选择 (0-2): "
+set /p "choice=请输入数字选择 (0-5): "
 
 if "%choice%"=="1" (
     set "GAME_NAME=深岩银河"
@@ -23,6 +26,18 @@ if "%choice%"=="1" (
     set "GAME_NAME=战锤：末世鼠疫2"
     set "APPID=552500"
     goto :start_fix
+) else if "%choice%"=="3" (
+    set "GAME_NAME=雨中冒险2"
+    set "APPID=632360"
+    goto :start_fix	
+) else if "%choice%"=="4" (
+    set "GAME_NAME=遥遥西土"
+    set "APPID="3124540"
+    goto :start_fix	
+) else if "%choice%"=="5" (
+    set "GAME_NAME=街霸6"
+    set "APPID="1364780"
+    goto :start_fix	
 ) else if "%choice%"=="0" (
     exit /b 0
 ) else (
@@ -139,7 +154,6 @@ if "%APPID%"=="548430" (
     :: ========== 鼠疫2的复制逻辑 ==========
     set "targetFolder1=%FINAL_PATH%\binaries"
     set "targetFolder2=%FINAL_PATH%\binaries_dx12"
-
     echo 正在复制到 !targetFolder1!
     copy /Y "%sourceFile%" "!targetFolder1!"
 
@@ -154,6 +168,39 @@ if "%APPID%"=="548430" (
 
     if errorlevel 1 (
         echo 发生错误：复制文件到 binaries_dx12 目录时出错
+        echo.
+        goto :end
+    )
+) else if "%APPID%"=="632360" (
+ :: ========== 雨中冒险2的复制逻辑 ==========
+    set "targetFolder3=%FINAL_PATH%"
+    echo 正在复制到 !targetFolder3!
+    copy /Y "%sourceFile%" "!targetFolder3!"
+
+    if errorlevel 1 (
+        echo 发生错误：复制文件到 Risk of Rain 2 目录时出错
+        echo.
+        goto :end
+    )
+) else if "%APPID%"=="3124540" (
+ :: ========== 遥遥西土的复制逻辑 ==========
+    set "targetFolder4=%FINAL_PATH%\FarFarWest\Binaries\Win64"
+    echo 正在复制到 !targetFolder4!
+    copy /Y "%sourceFile%" "!targetFolder4!"
+
+    if errorlevel 1 (
+        echo 发生错误：复制文件到 \FarFarWest\Binaries\Win64 目录时出错
+        echo.
+        goto :end
+    )
+) else if "%APPID%"=="1364780" (
+ :: ========== Street Fighter 6 的复制逻辑 ==========
+    set "targetFolder5=%FINAL_PATH%"
+    echo 正在复制到 !targetFolder5!
+    copy /Y "%sourceFile%" "!targetFolder5!"
+
+    if errorlevel 1 (
+        echo 发生错误：复制文件到 Street Fighter 6 目录时出错
         echo.
         goto :end
     )
