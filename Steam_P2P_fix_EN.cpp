@@ -4,27 +4,23 @@
 #include <filesystem>
 #include <windows.h>
 #include <vector>
+#include <map>
 
 namespace fs = std::filesystem;
 
-// 定义游戏信息结构体
+// Define game info struct
 struct GameInfo {
-    std::string name;                       // 游戏名
+    std::string name;                       // Game name
     std::string appId;                      // APPID
-    std::vector<std::string> targetSubDirs; // 目标子目录列表
+    std::vector<std::string> targetSubDirs; // List of target subdirectories
 };
 
-// 设置控制台显示 UTF-8 中文
-void initConsole() {
-    SetConsoleOutputCP(CP_UTF8);
-}
-
-// 从注册表获取 Steam 安装路径
+// Get Steam installation path from registry
 std::string getSteamPath() {
     HKEY hKey;
-    LPCSTR subKey = "SOFTWARE\\Wow6432Node\\Valve\\Steam"; // 64 位
+    LPCSTR subKey = "SOFTWARE\\Wow6432Node\\Valve\\Steam"; // 64-bit
     if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, subKey, 0, KEY_READ, &hKey) != ERROR_SUCCESS) {
-        subKey = "SOFTWARE\\Valve\\Steam"; // 32 位
+        subKey = "SOFTWARE\\Valve\\Steam"; // 32-bit
         if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, subKey, 0, KEY_READ, &hKey) != ERROR_SUCCESS) {
             return "";
         }
@@ -41,7 +37,7 @@ std::string getSteamPath() {
     return "";
 }
 
-// 替换字符串中的子串（用于转义 VDF 路径）
+// Replace substring (used for VDF path escaping)
 void replaceAll(std::string& str, const std::string& from, const std::string& to) {
     if (from.empty()) return;
     size_t start_pos = 0;
@@ -51,7 +47,7 @@ void replaceAll(std::string& str, const std::string& from, const std::string& to
     }
 }
 
-// 解析 libraryfolders.vdf，获取对应 AppID 的库路径
+// Parse libraryfolders.vdf to get the library path for a given AppID
 std::string getLibraryPath(const std::string& steamRoot, const std::string& appId) {
     fs::path vdfPath = fs::path(steamRoot) / "steamapps" / "libraryfolders.vdf";
     if (!fs::exists(vdfPath)) return "";
@@ -79,7 +75,7 @@ std::string getLibraryPath(const std::string& steamRoot, const std::string& appI
     return "";
 }
 
-// 解析 appmanifest.acf 获取游戏的安装文件夹名
+// Parse appmanifest.acf to get the game's installation folder name
 std::string getInstallDir(const std::string& libraryPath, const std::string& appId) {
     fs::path acfPath = fs::path(libraryPath) / "steamapps" / ("appmanifest_" + appId + ".acf");
     if (!fs::exists(acfPath)) return "";
@@ -101,48 +97,48 @@ std::string getInstallDir(const std::string& libraryPath, const std::string& app
     return "";
 }
 
-// 复制 DLL 到目标文件夹
+// Copy the DLL to the target folder (assumes the folder already exists)
 bool copyDll(const fs::path& source, const fs::path& targetFolder) {
     try {
         fs::path targetFile = targetFolder / source.filename();
-        std::cout << "正在复制到 " << targetFolder.string() << std::endl;
+        std::cout << "Copying to: " << targetFolder.string() << std::endl;
         fs::copy_file(source, targetFile, fs::copy_options::overwrite_existing);
         return true;
     }
     catch (const fs::filesystem_error& e) {
-        std::cerr << "发生错误：复制文件到 " << targetFolder.string() << " 失败 (" << e.what() << ")" << std::endl;
+        std::cerr << "Error: Failed to copy file to " << targetFolder.string() << " (" << e.what() << ")" << std::endl;
         return false;
     }
 }
 
 int main() {
-	initConsole();
-    // =================配置区域==================
-    // 格式: {"游戏名称", "AppID", {"目标子文件夹1", "目标子文件夹2"}}
-    // 注意: 子文件夹填 "" 表示直接复制到游戏根目录
+    // ================Configuration Area==================
+    // Add new games here
+    // Format: {"Game Name", "AppID", {"target_subfolder1", "target_subfolder2"}}
+    // Note: empty subfolder "" means copy directly to game root directory
     // ==========================================
     std::vector<GameInfo> games = {
-        {"深岩银河", "548430", {"FSD\\Binaries\\Win64"}},
-        {"战锤：末世鼠疫2", "552500", {"binaries", "binaries_dx12"}},
-        {"雨中冒险2", "632360", {""}},
-        {"遥遥西土", "3124540", {"FarFarWest\\Binaries\\Win64"}},
-        {"星露谷物语", "413150", {""}},
-        {"街霸6", "1364780", {""}},
-        {"深岩银河：异动核心", "2605790", {"RogueCore\\Binaries\\Win64"}}
+        {"Deep Rock Galactic",             "548430",  {"FSD\\Binaries\\Win64"}},
+        {"Warhammer: Vermintide 2",        "552500",  {"binaries", "binaries_dx12"}},
+        {"Risk of Rain 2",                 "632360",  {""}},
+        {"Far Far West",                   "3124540", {"FarFarWest\\Binaries\\Win64"}},
+        {"Stardew Valley",                 "413150",  {""}},
+        {"Street Fighter 6",               "1364780", {""}},
+        {"Deep Rock Galactic: Rogue Core", "2605790", {"RogueCore\\Binaries\\Win64"}}
     };
 
     while (true) {
         system("cls");
         std::cout << "=============================================\n";
-        std::cout << "         Steam 游戏 P2P 连接修复工具\n";
+        std::cout << "      Steam Game P2P Connection Fix Script\n";
         std::cout << "=============================================\n\n";
-        std::cout << "请选择需要修复的游戏:\n\n";
+        std::cout << "Please select the game to fix:\n\n";
         for (size_t i = 0; i < games.size(); ++i) {
             std::cout << "[" << (i + 1) << "] " << games[i].name << "\n";
         }
-        std::cout << "[0] 退出脚本\n\n";
+        std::cout << "[0] Exit script\n\n";
         
-        std::cout << "请输入数字选择 (0-" << games.size() << "): ";
+        std::cout << "Enter a number (0-" << games.size() << "): ";
         std::string choice;
         std::getline(std::cin, choice);
 
@@ -150,18 +146,18 @@ int main() {
             break;
         }
         
-        // 将选择转换为索引
+        // Convert choice to index
         int idx;
         try {
             idx = std::stoi(choice) - 1;
         } catch (...) {
-            std::cout << "\n发生错误：无效的输入，请输入数字。\n";
+            std::cout << "\nError: Invalid input, please enter a number.\n";
             system("pause");
             continue;
         }
 
         if (idx < 0 || idx >= static_cast<int>(games.size())) {
-            std::cout << "\n发生错误：选择超出范围。\n";
+            std::cout << "\nError: Selection out of range.\n";
             system("pause");
             continue;
         }
@@ -170,56 +166,56 @@ int main() {
 
         system("cls");
         std::cout << "=============================================\n";
-        std::cout << "          正在修复：" << selectedGame.name << "\n";
+        std::cout << "          Fixing: " << selectedGame.name << "\n";
         std::cout << "=============================================\n\n";
 
-        // 1. 获取 Steam 安装路径
-        std::cout << "[1/3] 正在获取 Steam 安装路径...\n";
+        // 1. Get Steam installation path
+        std::cout << "[1/3] Getting Steam installation path...\n";
         std::string steamRoot = getSteamPath();
         if (steamRoot.empty()) {
-            std::cerr << "发生错误：注册表中未找到 Steam 安装路径\n\n";
+            std::cerr << "Error: Steam installation path not found in registry\n\n";
             system("pause");
             continue;
         }
-        std::cout << "Steam 安装路径 " << steamRoot << "\n\n";
+        std::cout << "Steam installation path: " << steamRoot << "\n\n";
 
-        // 2. 获取游戏安装路径
-        std::cout << "[2/3] 正在获取 " << selectedGame.name << " 安装路径...\n";
+        // 2. Get game installation path
+        std::cout << "[2/3] Getting " << selectedGame.name << " installation path...\n";
         std::string libraryPath = getLibraryPath(steamRoot, selectedGame.appId);
         if (libraryPath.empty()) {
-            std::cerr << "发生错误：未在任何 Steam 库中找到 AppID: " << selectedGame.appId << " 的安装记录\n\n";
+            std::cerr << "Error: AppID " << selectedGame.appId << " not found in any Steam library folder\n\n";
             system("pause");
             continue;
         }
 
         std::string installDir = getInstallDir(libraryPath, selectedGame.appId);
         if (installDir.empty()) {
-            std::cerr << "发生错误：无法从 acf 文件中读取 installdir\n\n";
+            std::cerr << "Error: Unable to read installdir from acf file\n\n";
             system("pause");
             continue;
         }
 
         fs::path finalPath = fs::path(libraryPath) / "steamapps" / "common" / installDir;
-        std::cout << "游戏安装路径 " << finalPath.string() << "\n\n";
+        std::cout << "Game installation path: " << finalPath.string() << "\n\n";
 
-        // 3. 检查并复制文件
-        std::cout << "[3/3] 正在检查并复制文件...\n";
+        // 3. Check and copy files
+        std::cout << "[3/3] Checking and copying files...\n";
         fs::path sourceFile = fs::path(steamRoot) / "steamwebrtc64.dll";
 
         if (!fs::exists(sourceFile)) {
-            std::cout << "Steam 目录下未找到 steamwebrtc64.dll，正在尝试从当前目录读取...\n";
+            std::cout << "steamwebrtc64.dll not found in Steam directory, trying current directory...\n";
             sourceFile = fs::current_path() / "steamwebrtc64.dll";
             
             if (!fs::exists(sourceFile)) {
-                std::cerr << "发生错误：Steam 目录和当前目录下均未找到 steamwebrtc64.dll\n\n";
+                std::cerr << "Error: steamwebrtc64.dll not found in Steam directory or current directory\n\n";
                 system("pause");
                 continue;
             } else {
-                std::cout << "已在当前目录找到备用的 DLL 文件\n";
+                std::cout << "Found fallback DLL file in current directory\n";
             }
         }
 
-        // 将文件复制到该游戏的所有目标文件夹
+        // Copy to all target folders configured for the selected game
         bool allSuccess = true;
         for (const auto& subDir : selectedGame.targetSubDirs) {
             fs::path targetFolder = finalPath;
@@ -231,7 +227,7 @@ int main() {
 
         if (allSuccess) {
             std::cout << "\n=============================================\n";
-            std::cout << "                   操作完成\n";
+            std::cout << "               Operation complete\n";
             std::cout << "=============================================\n\n";
         }
         system("pause");
