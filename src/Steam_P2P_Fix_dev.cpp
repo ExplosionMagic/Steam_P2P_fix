@@ -69,7 +69,7 @@ int main()
         "steamwebrtc.dll"};
 
     // 获取 Steam 安装路径（用于定位源 DLL）
-    std::cout << "[1/2] 正在获取 Steam 安装路径...\n";
+    std::cout << "[1/3] 正在获取 Steam 安装路径...\n";
     std::string steamRoot = getSteamPath();
     if (steamRoot.empty())
     {
@@ -82,7 +82,7 @@ int main()
     }
 
     // 定位源 DLL 文件
-    std::cout << "[2/2] 正在查找 DLL 文件...\n";
+    std::cout << "[2/3] 正在查找 DLL 文件...\n";
     std::vector<fs::path> sourceFiles;
 
     for (const auto &dllName : dllNames)
@@ -102,7 +102,7 @@ int main()
             }
         }
 
-        // 如果 Steam 目录没有，尝试当前目录
+        // 如果 Steam 目录没有，尝试在当前目录寻找
         if (!found)
         {
             srcPath = fs::current_path() / dllName;
@@ -128,7 +128,7 @@ int main()
     }
 
     // 复制到 C:\Windows
-    std::cout << "\n正在将 DLL 文件复制到 C:\\Windows...\n";
+    std::cout << "\n[3/3] 正在将文件复制到目标位置...\n";
     bool allSuccess = true;
     for (const auto &src : sourceFiles)
     {
@@ -146,7 +146,7 @@ int main()
     }
     else
     {
-        std::cerr << "\n文件复制失败，请检查是否有写入 C:\\Windows 的权限（可能需要以管理员身份运行）。\n\n";
+        std::cerr << "\n文件复制失败，检查程序是否以管理员身份运行。\n\n";
     }
 
     system("pause");
