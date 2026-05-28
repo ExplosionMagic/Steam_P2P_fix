@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <windows.h>
 #include <vector>
+#include <shlobj.h>
 
 namespace fs = std::filesystem;
 
@@ -59,6 +60,15 @@ int main()
 {
     initConsole();
 
+    // 检查是否以管理员身份运行
+    if (!IsUserAnAdmin())
+    {
+        std::cerr << "错误：请以管理员身份运行该程序。\n";
+        std::cerr << "右键该程序选择“以管理员身份运行”。\n\n";
+        system("pause");
+        return 1;
+    }
+
     std::cout << "=============================================\n";
     std::cout << "  Steam P2P 修复 - 正在启动...\n";
     std::cout << "=============================================\n\n";
@@ -74,7 +84,7 @@ int main()
     if (steamRoot.empty())
     {
         std::cerr << "  注册表中未找到 Steam 安装路径\n";
-        std::cerr << "  将尝试从当前目录读取 DLL 文件\n\n";
+        std::cerr << "  将尝试从当前路径读取 DLL 文件\n\n";
     }
     else
     {
@@ -90,25 +100,25 @@ int main()
         fs::path srcPath;
         bool found = false;
 
-        // 优先从 Steam 目录获取
+        // 优先从 Steam 安装路径获取
         if (!steamRoot.empty())
         {
             srcPath = fs::path(steamRoot) / dllName;
             if (fs::exists(srcPath))
             {
-                std::cout << "  在 Steam 目录找到 " << dllName << std::endl;
+                std::cout << "  在 Steam 安装路径找到 " << dllName << std::endl;
                 sourceFiles.push_back(srcPath);
                 found = true;
             }
         }
 
-        // 如果 Steam 目录没有，尝试在当前目录寻找
+        // 如果 Steam 安装路径没有，尝试在当前路径寻找
         if (!found)
         {
             srcPath = fs::current_path() / dllName;
             if (fs::exists(srcPath))
             {
-                std::cout << "  在当前目录找到 " << dllName << std::endl;
+                std::cout << "  在当前路径找到 " << dllName << std::endl;
                 sourceFiles.push_back(srcPath);
                 found = true;
             }
