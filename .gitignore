@@ -1,5 +1,6 @@
 /*.bat
 /*.exe
-/src/*.obj
-/src/*.exe
+/*.obj
 /src/*.zip
+/src/*.exe
+/src/*.obj
