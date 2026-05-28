@@ -127,7 +127,7 @@ int main()
         return 1;
     }
 
-    // 3. 复制到 C:\Windows
+    // 复制到 C:\Windows
     std::cout << "\n正在将 DLL 文件复制到 C:\\Windows...\n";
     bool allSuccess = true;
     for (const auto &src : sourceFiles)
