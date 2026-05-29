@@ -4,3 +4,4 @@
 /src/*.zip
 /src/*.exe
 /src/*.obj
+/build
