@@ -16,7 +16,6 @@ echo [3] 雨中冒险2 (Risk of Rain 2)
 echo [4] 遥遥西土 (Far Far West)
 echo [5] 星露谷物语 (Stardew Valley)
 echo [6] 街霸6 (Street Fighter 6)
-echo [7] 深岩银河：异动核心 (Deep Rock Galactic: Rogue Core)
 echo [0] 退出脚本
 echo.
 set /p "choice=请输入数字选择 (0-6): "
@@ -44,10 +43,6 @@ if "%choice%"=="1" (
 ) else if "%choice%"=="6" (
     set "GAME_NAME=街霸6"
     set "APPID=1364780"
-    goto :start_fix	
-) else if "%choice%"=="7" (
-    set "GAME_NAME=深岩银河：异动核心"
-    set "APPID=2605790"
     goto :start_fix	
 ) else if "%choice%"=="0" (
     exit /b 0
@@ -223,17 +218,6 @@ if "%APPID%"=="548430" (
 
     if errorlevel 1 (
         echo 发生错误：复制文件到 !targetFolder6! 时出错
-        echo.
-        goto :end
-    )
-) else if "%APPID%"=="2605790" (
- :: ========== 深岩银河：异动核心的复制逻辑 ==========
-    set "targetFolder7=%FINAL_PATH%\RogueCore\Binaries\Win64"
-    echo 正在复制到 !targetFolder7!
-    copy /Y "%sourceFile%" "!targetFolder7!"
-
-    if errorlevel 1 (
-        echo 发生错误：复制文件到 !targetFolder7! 时出错
         echo.
         goto :end
     )
