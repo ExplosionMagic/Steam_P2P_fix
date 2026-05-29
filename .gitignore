@@ -5,6 +5,10 @@
 <<<<<<< Updated upstream
 /src/*.exe
 /src/*.zip
+<<<<<<< Updated upstream
+=======
+/build
+>>>>>>> Stashed changes
 =======
 /build
 >>>>>>> Stashed changes
